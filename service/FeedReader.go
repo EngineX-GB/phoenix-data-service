@@ -10,6 +10,10 @@ import (
 	"time"
 )
 
+func CheckLoadDate() time.Time {
+	return dao.GetMaxLoadDate()
+}
+
 func ReadFeed(contents string) {
 	reader := strings.NewReader(contents)
 	csvReader := csv.NewReader(reader)

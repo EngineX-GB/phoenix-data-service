@@ -6,7 +6,20 @@ import (
 	"log"
 	"phoenix-data-service/config"
 	"phoenix-data-service/domain"
+	"time"
 )
+
+func GetMaxLoadDate() time.Time {
+	db := connect()
+	var refreshTime time.Time
+	result := db.QueryRow(GetMaxRefreshTimeQuery())
+	err := result.Scan(&refreshTime)
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer db.Close()
+	return refreshTime
+}
 
 func AddClient(clientList []domain.Client) {
 	db := connect()
