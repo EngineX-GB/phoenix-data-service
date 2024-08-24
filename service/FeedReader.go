@@ -7,6 +7,7 @@ import (
 	"phoenix-data-service/domain"
 	"strconv"
 	"strings"
+	"time"
 )
 
 func ReadFeed(contents string) {
@@ -40,7 +41,7 @@ func ReadFeed(contents string) {
 		client.RON = convertStrToInt(record[15])
 		client.Telephone = record[16]
 		client.Url = record[17]
-		// refreshTime
+		client.RefreshTime = convertStrToTime(record[18])
 		client.UserId = record[19]
 		//imageavailable
 		client.Region = record[21]
@@ -70,4 +71,13 @@ func convertStrToInt(value string) int {
 		log.Fatal("Cannot convert string to int, " + err.Error())
 	}
 	return num
+}
+
+func convertStrToTime(value string) time.Time {
+	timeLayout := "2006-01-02 15:04:05"
+	refreshTime, err := time.Parse(timeLayout, value)
+	if err != nil {
+		log.Fatal("Cannot convert string to time, " + err.Error())
+	}
+	return refreshTime
 }
