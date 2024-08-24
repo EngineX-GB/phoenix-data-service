@@ -20,11 +20,6 @@ func AddClient(clientList []domain.Client) {
 	}
 	defer db.Close()
 
-	//
-	//"rate_30_min, rate_1_hour, rate_1_50_hour, rate_2_hour, rate_2_50_hour, rate_3_hour, rate_3_50_hour, rate_4_hour, rate_overnight," +
-	//	"telephone, url_page, user_id, region)" +
-	//
-
 }
 
 func connect() *sql.DB {
