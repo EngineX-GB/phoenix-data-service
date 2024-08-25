@@ -8,5 +8,5 @@ func InsertClientQuery() string {
 }
 
 func GetMaxRefreshTimeQuery() string {
-	return "SELECT MAX(refresh_time) FROM tbl_client"
+	return "SELECT MAX(DATE(refresh_time)) FROM tbl_client"
 }
