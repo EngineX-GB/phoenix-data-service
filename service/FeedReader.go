@@ -20,7 +20,9 @@ func ReadFeed(contents string) {
 	csvReader.Comma = '|'
 	records, err := csvReader.ReadAll()
 	if err != nil {
-		log.Fatal(err)
+		log.Println("Error reading the CSV file")
+		return
+		//log.Fatal(err)
 	}
 
 	var clientList []domain.Client
@@ -61,8 +63,10 @@ func ReadFeed(contents string) {
 	}
 
 	if len(clientList) > 0 {
-		log.Println("Client list is " + strconv.Itoa(len(clientList)) + " clients")
+		//log.Println("Client list is " + strconv.Itoa(len(clientList)) + " clients")
 		dao.AddClient(clientList)
+		// Here, run the stored proc
+
 	}
 }
 

@@ -23,6 +23,7 @@ func FeedFileHandler(w http.ResponseWriter, r *http.Request) {
 		fmt.Println("Error in reading uploaded file : ", err)
 		return
 	}
+	log.Println("Loading file : " + metadata.Filename)
 	dateOnFeedFile, err := checkLoadDateOnFile(metadata.Filename)
 	refreshTimeInDB := service.CheckLoadDate()
 	if err != nil {
@@ -30,7 +31,7 @@ func FeedFileHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if dateOnFeedFile.Compare(refreshTimeInDB) < 0 {
-		log.Println("Date on file is earlier than the latest load date")
+		log.Println("Date on file is earlier than the latest load date, date on feed file : " + (dateOnFeedFile.Format("2006-01-02 15:04:05")) + ", refreshDateInDB : " + refreshTimeInDB.Format("2006-01-02 15:04:05"))
 		return
 	}
 
@@ -41,7 +42,7 @@ func FeedFileHandler(w http.ResponseWriter, r *http.Request) {
 	}
 	contents := string(fileBytes[:])
 
-	fmt.Print("Maximum refresh time in database is : " + refreshTimeInDB.Format("2006-01-02 15:04:05"))
+	//log.Print("Maximum refresh time in database is : " + refreshTimeInDB.Format("2006-01-02 15:04:05"))
 	service.ReadFeed(contents)
 }
 
@@ -52,7 +53,7 @@ func checkLoadDateOnFile(filename string) (time.Time, error) {
 	date := re.FindString(filename)
 
 	if date != "" {
-		fmt.Printf("Extracted date: %s\n", date)
+		//log.Printf("Extracted date: %s\n", date)
 		dateObj, err := time.Parse("2006-01-02", date)
 		if err != nil {
 			return time.Now(), errors.New("error in parsing date")
